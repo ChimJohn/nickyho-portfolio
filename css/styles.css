@@ -436,3 +436,229 @@ body.dark #theme-toggle:hover {
     width: 80%;
   }
 }
+
+/* === EXPERIENCE SECTION REFINEMENTS === */
+.experience-section {
+  background: var(--bg);
+  color: var(--text);
+  padding: 5rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.experience-section .section-content {
+  max-width: 900px;
+  width: 100%;
+}
+
+.experience-section h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem; /* vertical spacing between experience blocks */
+}
+
+.exp-item {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.5rem;
+  animation: fadeInUp 0.6s ease both;
+}
+
+.exp-item h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+
+.exp-item .period {
+  font-size: 0.95rem;
+  color: var(--gray);
+  margin-bottom: 0.8rem;
+}
+
+.exp-item p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* === EDUCATION SECTION REFINEMENTS === */
+.education-section {
+  background: var(--bg);
+  color: var(--text);
+  padding: 5rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.education-section .section-content {
+  max-width: 850px;
+  width: 100%;
+}
+
+.education-section h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.edu-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.8rem 2rem;
+  margin-bottom: 2rem; /* adds space between education blocks */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.edu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.edu-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.edu-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.edu-card .period {
+  font-size: 0.9rem;
+  color: var(--gray);
+  margin-top: 0.8rem;
+}
+
+/* === PROJECTS SECTION (Reimagined Grid Showcase) === */
+.projects-section {
+  background: var(--bg);
+  color: var(--text);
+  padding: 5rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.projects-section .section-content {
+  max-width: 1100px;
+  width: 100%;
+}
+
+.projects-section h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Grid Layout */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* Project Card */
+.project-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2rem;
+  min-height: 220px;              /* give room for multi-line content */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.project-card h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--accent);
+}
+
+.project-card p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+
+.project-card .tech {
+  display: inline-block;          /* prevents inline overflow */
+  font-size: 0.9rem;
+  color: var(--gray);
+  background: rgba(37, 99, 235, 0.08);
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  white-space: normal;            /* allows wrapping */
+  max-width: 100%;                /* ensures no overflow */
+}
+
+
+/* Hover Interaction */
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  border-color: var(--accent);
+}
+
+/* Optional accent glow */
+.project-card:hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.15), transparent 70%);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.15), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}

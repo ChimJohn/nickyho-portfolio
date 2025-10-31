@@ -33,8 +33,7 @@ body {
   background: var(--bg);
   color: var(--text);
   transition: background 0.4s ease, color 0.4s ease;
-  overflow-x: hidden; /* prevent scrollbars when sliding horizontally */
-  overflow-y: auto;
+  overflow: hidden; /* prevent scrollbars when sliding horizontally */
 }
 
 /* === Navbar === */
@@ -616,7 +615,7 @@ body.dark #theme-toggle:hover {
 }
 
 .project-card .tech {
-  display: inline-block;          /* prevents inline overflow */
+  display: inline-block;
   font-size: 0.9rem;
   color: var(--gray);
   background: rgba(37, 99, 235, 0.08);
@@ -624,8 +623,8 @@ body.dark #theme-toggle:hover {
   border-radius: 8px;
   line-height: 1.5;
   word-wrap: break-word;
-  white-space: normal;            /* allows wrapping */
-  max-width: 100%;                /* ensures no overflow */
+  white-space: normal;
+  max-width: 100%;
 }
 
 
@@ -662,4 +661,32 @@ body.dark #theme-toggle:hover {
   .projects-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* === INTERNAL SCROLL FOR EXPERIENCE & PROJECTS SECTIONS === */
+.experience-section,
+.projects-section {
+  height: calc(100vh - 60px);
+  overflow-y: auto;                 /* allow internal scroll */
+  padding-right: 1rem;
+  position: relative;               /* for the scroll-hint positioning */
+  scrollbar-width: thin;            /* Firefox */
+  scrollbar-color: var(--accent) transparent;
+}
+
+/* WebKit scrollbars (Chrome / Safari / Edge) */
+.experience-section::-webkit-scrollbar,
+.projects-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.experience-section::-webkit-scrollbar-thumb,
+.projects-section::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 10px;
+}
+
+.experience-section::-webkit-scrollbar-track,
+.projects-section::-webkit-scrollbar-track {
+  background: transparent;
 }

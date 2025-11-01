@@ -690,3 +690,112 @@ body.dark #theme-toggle:hover {
 .projects-section::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* === MOBILE RESPONSIVENESS === */
+@media (max-width: 900px) {
+  /* Allow vertical scroll on small screens */
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .page-container {
+    height: auto;
+    padding-top: 60px;
+  }
+
+  .sections-wrapper {
+    flex-direction: column;     /* stack vertically */
+    transform: none !important; /* disable horizontal sliding */
+  }
+
+  .section {
+    width: 100%;
+    height: auto;
+    min-height: calc(100vh - 60px);
+    padding: 3rem 1.5rem;
+  }
+
+  /* Navbar spacing fix */
+  .navbar {
+    height: 55px;
+  }
+
+  /* Hero section: stack image and text vertically */
+  .hero-container {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .hero-text h2 {
+    font-size: 1.2rem;
+  }
+
+  .hero-text .description {
+    font-size: 1rem;
+  }
+
+  .hero-image img {
+    width: 200px;
+    height: 200px;
+  }
+
+  /* About section adjustments */
+  .about-content {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .about-photo img {
+    width: 80%;
+    max-width: 300px;
+  }
+
+  /* Experience, Education, Projects – proper spacing */
+  .experience-section,
+  .education-section,
+  .projects-section {
+    padding: 3rem 1.5rem;
+    height: auto;
+    overflow: visible;
+  }
+
+  .timeline {
+    gap: 1.5rem;
+  }
+
+  .exp-item {
+    border-left: none;
+    border-top: 3px solid var(--accent);
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+
+  .edu-card,
+  .project-card {
+    padding: 1.5rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.95rem;
+  }
+
+  /* Theme toggle positioning */
+  #theme-toggle {
+    left: auto;
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+}

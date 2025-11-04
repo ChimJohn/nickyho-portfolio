@@ -160,3 +160,19 @@ const syncPointer = ({ x: pointerX, y: pointerY }) => {
   });
 };
 window.addEventListener('pointermove', syncPointer);
+
+// === HAMBURGER MENU TOGGLE ===
+document.addEventListener("componentsLoaded", () => {
+  const menuToggle = document.querySelector("#menu-toggle");
+  const navLinks = document.querySelector("#nav-links");
+  if (!menuToggle || !navLinks) return;
+
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+  });
+
+  // Auto-close on link click
+  navLinks.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => navLinks.classList.remove("active"));
+  });
+});

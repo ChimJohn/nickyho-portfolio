@@ -98,6 +98,8 @@ function initSectionSlider() {
   const navLinks = document.querySelectorAll(".nav-link");
   if (!wrapper || !sections.length) return;
 
+  if (window.innerWidth <= 900) return;
+
   let currentIndex = 0;
   sections[0].classList.add("active", "visible");
 
@@ -161,18 +163,21 @@ const syncPointer = ({ x: pointerX, y: pointerY }) => {
 };
 window.addEventListener('pointermove', syncPointer);
 
-// === HAMBURGER MENU TOGGLE ===
+// === RESPONSIVE NAV MENU ===
 document.addEventListener("componentsLoaded", () => {
   const menuToggle = document.querySelector("#menu-toggle");
   const navLinks = document.querySelector("#nav-links");
+
   if (!menuToggle || !navLinks) return;
 
   menuToggle.addEventListener("click", () => {
     navLinks.classList.toggle("active");
   });
 
-  // Auto-close on link click
   navLinks.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => navLinks.classList.remove("active"));
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("active");
+    });
   });
 });
+

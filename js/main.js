@@ -141,3 +141,22 @@ function initSectionSlider() {
     }
   });
 }
+
+/* -----------------------
+    4. Pointer position tracking 
+------------------------*/
+// Attach pointer tracking to each project card individually
+const syncPointer = ({ x: pointerX, y: pointerY }) => {
+  const x = pointerX / window.innerWidth;
+  const y = pointerY / window.innerHeight;
+  document.querySelectorAll('.project-card').forEach((card) => {
+    const rect = card.getBoundingClientRect();
+    const cardX = pointerX - rect.left;
+    const cardY = pointerY - rect.top;
+    card.style.setProperty('--x', cardX);
+    card.style.setProperty('--y', cardY);
+    card.style.setProperty('--xp', (cardX / rect.width).toFixed(2));
+    card.style.setProperty('--yp', (cardY / rect.height).toFixed(2));
+  });
+};
+window.addEventListener('pointermove', syncPointer);

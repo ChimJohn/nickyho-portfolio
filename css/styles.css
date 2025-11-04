@@ -11,6 +11,31 @@ html {
   --gray: #555555;
   --accent: #2563eb;
   --border: #eaeaea;
+
+  /* Light mode card & glow colors */
+  --card-bg: #fff4ef;                            /* warm soft peach */
+  --glow-primary: hsl(280, 100%, 68%, 0.85);     /* vivid orchid purple */
+  --glow-secondary: hsl(185, 100%, 65%, 0.55);   /* bright turquoise cyan */
+}
+
+/* Dark mode overrides */
+body.dark {
+  --bg: #0f172a;
+  --text: #f1f5f9;
+  --gray: #a1a1aa;
+  --accent: #38bdf8;
+  --border: #1e293b;
+
+  --card-bg: hsl(228, 22%, 15%);
+  --glow-primary: hsl(280, 100%, 70%, 0.5);
+  --glow-secondary: hsl(190, 100%, 60%, 0.35);
+}
+
+/* For conic gradient animation */
+@property --start {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
 }
 
 body.dark {
@@ -244,6 +269,12 @@ body {
   background: #1e40af; /* deeper blue */
   box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
   transform: translateY(-2px);
+}
+
+@keyframes spin {
+  to {
+    --start: 360;
+  }
 }
 
 /* Responsive */
@@ -585,75 +616,132 @@ body.dark #theme-toggle:hover {
 
 /* Project Card */
 .project-card {
-  background: var(--bg);
-  border: 1px solid var(--border);
+  --active: 0.15;
+  --start: 0;
+  background: var(--card-bg);
   border-radius: 14px;
   padding: 2rem;
-  min-height: 220px;              /* give room for multi-line content */
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-  transition: all 0.35s ease;
   position: relative;
   overflow: hidden;
+  min-height: 220px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: transform 0.3s ease;
+  z-index: 0;
+  border: 1px solid var(--border);
 }
 
-
-.project-card h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 0.8rem;
-  color: var(--accent);
-}
-
-.project-card p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text);
-  margin-bottom: 1.2rem;
-}
-
-.project-card .tech {
-  display: inline-block;
-  font-size: 0.9rem;
-  color: var(--gray);
-  background: rgba(37, 99, 235, 0.08);
-  padding: 0.5rem 0.8rem;
-  border-radius: 8px;
-  line-height: 1.5;
-  word-wrap: break-word;
-  white-space: normal;
-  max-width: 100%;
-}
-
-
-/* Hover Interaction */
 .project-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-  border-color: var(--accent);
+  transform: translateY(-6px);
 }
 
-/* Optional accent glow */
-.project-card:hover::before {
-  content: "";
+.project-card .glows {
+  pointer-events: none;
   position: absolute;
   inset: 0;
-  border-radius: 14px;
-  background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.15), transparent 70%);
-  opacity: 1;
+  z-index: 0;
+  filter: blur(calc(var(--blur) * 1px));
+  opacity: 0;
+  background:
+    radial-gradient(
+      300px circle at calc(var(--xp, 0.5) * 100%) calc(var(--yp, 0.5) * 100%),
+      var(--glow-primary),
+      transparent 60%
+    ),
+    radial-gradient(
+      150px circle at calc(var(--xp, 0.5) * 100%) calc(var(--yp, 0.5) * 100%),
+      var(--glow-secondary),
+      transparent 60%
+    );
+  mix-blend-mode: lighten;
   transition: opacity 0.3s ease;
+}
+
+.project-card:hover .glows {
+  opacity: 1;
+}
+
+
+.project-card .glows::after,
+.project-card .glows::before {
+  content: "";
+  background: conic-gradient(
+    from calc((var(--start) - (var(--spread) * 0.5)) * 1deg),
+    #fff 0deg,
+    #eec32d 72deg,
+    #ec4b4b 144deg,
+    #709ab9 216deg,
+    #4dffbf 288deg,
+    #fff 1turn
+  );
+  position: absolute;
+  inset: -5px;
+  border: 10px solid transparent;
+  border-radius: 14px;
+  mask:
+    linear-gradient(#0000, #0000),
+    conic-gradient(
+      from calc((var(--start) - (var(--spread) * 0.5)) * 1deg),
+      #000 0deg,
+      #fff,
+      #0000 calc(var(--spread) * 1deg)
+    );
+  mask-composite: intersect;
+  mask-clip: padding-box, border-box;
+  opacity: var(--active);
+  transition: opacity 1s;
 }
 
 .project-card::before {
   content: "";
   position: absolute;
   inset: 0;
+  border: 2px solid transparent;
   border-radius: 14px;
-  background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.15), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  pointer-events: none;
+  background: hsl(280 10% 50% / 1);
+  mask:
+    linear-gradient(#0000, #0000),
+    conic-gradient(
+      from calc(((var(--start) + (var(--spread) * 0.25)) - (var(--spread) * 1.5)) * 1deg),
+      hsl(0 0% 100% / 0.15) 0deg,
+      white,
+      hsl(0 0% 100% / 0.15) calc(var(--spread) * 2.5deg)
+    );
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  opacity: var(--active);
+  transition: opacity 1s;
+}
+
+.project-card::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  background: conic-gradient(
+    from calc(((var(--start) + (var(--spread) * 0.25)) - (var(--spread) * 0.5)) * 1deg),
+    #0000 0deg,
+    #fff,
+    #0000 calc(var(--spread) * 0.5deg)
+  );
+  background-attachment: fixed;
+  border-radius: 14px;
+  opacity: var(--active, 0);
+  transition: opacity 1s;
+  inset: 0;
+  border: 2px solid transparent;
+  filter: brightness(1.5);
+  mask:
+    linear-gradient(#0000, #0000),
+    conic-gradient(
+      from calc(((var(--start) + (var(--spread) * 0.25)) - (var(--spread) * 0.5)) * 1deg),
+      #0000 0deg,
+      #fff,
+      #0000 calc(var(--spread) * 0.5deg)
+    );
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
 }
 
 /* Responsive */

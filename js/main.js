@@ -5,6 +5,7 @@ document.addEventListener("componentsLoaded", () => {
   initThemeToggle();
   initNavbarIndicator();
   initSectionSlider();
+  initHamburgerMenu(); // ✅ moved here for single entry point
 });
 
 /* -----------------------
@@ -90,15 +91,22 @@ function initNavbarIndicator() {
 }
 
 /* -----------------------
-   3. Horizontal section slider
+   3. Horizontal section slider (desktop only)
 ------------------------*/
 function initSectionSlider() {
   const wrapper = document.querySelector(".sections-wrapper");
   const sections = document.querySelectorAll(".section");
   const navLinks = document.querySelectorAll(".nav-link");
+
   if (!wrapper || !sections.length) return;
 
-  if (window.innerWidth <= 900) return;
+  // Disable slider on mobile for natural scroll
+  if (window.innerWidth <= 900) {
+    sections.forEach((section) => {
+      section.classList.add("visible", "active");
+    });
+    return;
+  }
 
   let currentIndex = 0;
   sections[0].classList.add("active", "visible");
@@ -124,15 +132,6 @@ function initSectionSlider() {
     });
   });
 
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest('a[href="#projects"]');
-    if (!btn) return;
-    e.preventDefault();
-    const targetSection = document.querySelector("#projects");
-    const index = Array.from(sections).indexOf(targetSection);
-    if (index !== -1) goToSection(index, "#projects");
-  });
-
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight" && currentIndex < sections.length - 1) {
       const nextId = navLinks[currentIndex + 1]?.getAttribute("href");
@@ -145,39 +144,39 @@ function initSectionSlider() {
 }
 
 /* -----------------------
-    4. Pointer position tracking 
+   4. Pointer position tracking (for glow effect)
 ------------------------*/
-// Attach pointer tracking to each project card individually
 const syncPointer = ({ x: pointerX, y: pointerY }) => {
-  const x = pointerX / window.innerWidth;
-  const y = pointerY / window.innerHeight;
-  document.querySelectorAll('.project-card').forEach((card) => {
+  document.querySelectorAll(".project-card").forEach((card) => {
     const rect = card.getBoundingClientRect();
     const cardX = pointerX - rect.left;
     const cardY = pointerY - rect.top;
-    card.style.setProperty('--x', cardX);
-    card.style.setProperty('--y', cardY);
-    card.style.setProperty('--xp', (cardX / rect.width).toFixed(2));
-    card.style.setProperty('--yp', (cardY / rect.height).toFixed(2));
+    card.style.setProperty("--x", cardX);
+    card.style.setProperty("--y", cardY);
+    card.style.setProperty("--xp", (cardX / rect.width).toFixed(2));
+    card.style.setProperty("--yp", (cardY / rect.height).toFixed(2));
   });
 };
-window.addEventListener('pointermove', syncPointer);
+window.addEventListener("pointermove", syncPointer);
 
-// === RESPONSIVE NAV MENU ===
-document.addEventListener("componentsLoaded", () => {
+/* -----------------------
+   5. Hamburger Menu
+------------------------*/
+function initHamburgerMenu() {
   const menuToggle = document.querySelector("#menu-toggle");
   const navLinks = document.querySelector("#nav-links");
-
   if (!menuToggle || !navLinks) return;
 
   menuToggle.addEventListener("click", () => {
     navLinks.classList.toggle("active");
+    // Prevent scroll freeze on mobile
+    document.body.classList.toggle("menu-open", navLinks.classList.contains("active"));
   });
 
-  navLinks.querySelectorAll("a").forEach(link => {
+  navLinks.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       navLinks.classList.remove("active");
+      document.body.classList.remove("menu-open");
     });
   });
-});
-
+}

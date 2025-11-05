@@ -790,13 +790,11 @@ body.dark #theme-toggle:hover {
   .page-container {
     height: auto;
     padding-top: 60px;
-    overflow: visible;
   }
 
   .sections-wrapper {
     flex-direction: column;     /* stack vertically */
     transform: none !important; /* disable horizontal sliding */
-    transition: none !important;
   }
 
   .section {
@@ -887,5 +885,58 @@ body.dark #theme-toggle:hover {
     left: auto;
     right: 1.5rem;
     bottom: 1.5rem;
+  }
+}
+
+/* === Responsive Navbar / Hamburger Menu === */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--text);
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+@media (max-width: 900px) {
+  .nav {
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .menu-toggle {
+    display: block;
+    z-index: 1001;
+  }
+
+  .nav ul {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    transform: translateY(-150%);
+    transition: transform 0.4s ease;
+    z-index: 1000;
+  }
+
+  .nav ul.active {
+    transform: translateY(0);
+  }
+
+  .nav a {
+    font-size: 1.1rem;
+  }
+
+  /* Hide underline indicator on mobile */
+  .nav-indicator {
+    display: none;
   }
 }

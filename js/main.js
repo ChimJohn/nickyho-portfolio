@@ -180,3 +180,73 @@ function initHamburgerMenu() {
     });
   });
 }
+
+/* -----------------------
+   5) Mobile FAB + bottom-sheet menu
+------------------------*/
+function initMobileFabMenu() {
+  const fab = document.getElementById("fab-nav");
+  const sheet = document.getElementById("mobile-menu");
+  const list  = document.getElementById("mobile-links");
+  const backdrop = document.getElementById("mobile-backdrop");
+
+  if (!fab || !sheet || !list) return;
+
+  // Populate mobile links by cloning desktop navbar links
+  const desktopLinks = document.querySelectorAll("#navbar .nav .nav-link");
+  list.innerHTML = "";
+  desktopLinks.forEach(a => {
+    const li = document.createElement("li");
+    const clone = a.cloneNode(true);
+    li.appendChild(clone);
+    list.appendChild(li);
+  });
+
+  const openMenu = () => {
+    sheet.classList.add("open");
+    backdrop.hidden = false;
+    document.body.classList.add("menu-open");
+    fab.setAttribute("aria-label", "Close navigation");
+    fab.innerHTML = '<i data-lucide="x"></i>';
+    lucide.createIcons();
+  };
+
+  const closeMenu = () => {
+    sheet.classList.remove("open");
+    backdrop.hidden = true;
+    document.body.classList.remove("menu-open");
+    fab.setAttribute("aria-label", "Open navigation");
+    fab.innerHTML = '<i data-lucide="menu"></i>';
+    lucide.createIcons();
+  };
+
+  // Toggle on FAB click
+  fab.addEventListener("click", () => {
+    sheet.classList.contains("open") ? closeMenu() : openMenu();
+  });
+
+  // Close when tapping a link (and navigate)
+  list.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      closeMenu();
+      // If desktop slider is disabled (mobile), just rely on scroll
+      // setActiveNav will still update underline when back on desktop
+      if (typeof setActiveNav === "function") {
+        setActiveNav(a.getAttribute("href").substring(1));
+      }
+    });
+  });
+
+  // Close on backdrop or Esc
+  backdrop?.addEventListener("click", closeMenu);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && sheet.classList.contains("open")) closeMenu();
+  });
+
+  // On resize to desktop, ensure menu is closed
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900 && sheet.classList.contains("open")) {
+      closeMenu();
+    }
+  });
+}
